@@ -1,0 +1,87 @@
+# Windows系ファイル
+NTUSER.DAT*
+ntuser.dat*
+ntuser.ini
+*.LOG1
+*.LOG2
+*.TM.blf
+*.TMContainer*
+*.regtrans-ms
+AppData/
+Contacts/
+Cookies
+Desktop/
+Documents/
+Downloads/
+Favorites/
+Links/
+Music/
+Pictures/
+Videos/
+Saved Games/
+Searches/
+OneDrive/
+IntelGraphicsProfiles/
+Recent
+Local Settings
+My Documents
+NetHood
+PrintHood
+SendTo
+Templates
+Application Data
+スタート メニュー
+
+# 一時ファイル・環境ファイル
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+venv/
+node_modules/
+package-lock.json
+.env
+temp/
+
+# データベースファイル
+*.db
+*.sqlite
+
+# 大きなファイル・不要なファイル
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.ico
+*.exe
+*.bat
+*.LOG*
+extracted_text_*.txt
+test_screenshot_*.png
+
+# 個人情報含む可能性のあるファイル
+*token.txt
+*api_key*
+*login*
+*password*
+*secret*
+GEMINI_API_KEY*
+:GEMINI_API_KEY*
+
+# 特定のプロジェクトディレクトリ
+mastra-ai-agent/
+obsidian-mcp/
+quiz-app*/
+youtube-collector-mcp/
+yt-dlp-env/
+pyautogui_env/
+ccf-repo/
+work/
+animation-studio/
+desktop_analysis/
+
+# 特定の大きなファイル
+ecommerce_sample.db
+buggy_sample.db
