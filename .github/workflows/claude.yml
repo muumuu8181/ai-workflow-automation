@@ -21,9 +21,7 @@ jobs:
       issues: write
     steps:
       - name: Claude Code Action
-        uses: anthropics/claude-code-action@v1
+        uses: anthropics/claude-code-action@beta
         with:
-          trigger_phrase: "@claude"
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          timeout_minutes: "30"
-          max_turns: "10"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
