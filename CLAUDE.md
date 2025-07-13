@@ -63,6 +63,53 @@ npx @google/gemini-cli -m gemini-2.5-flash -p "質問"
 - ポート転送が必要な場合あり
 
 ### TodoWrite使用の重要性
-- **複雑なタスクは必ずTodoWriteで計画・追跡**
+- **複雑なタスクは必ずTodoWriteで計画・追跟**
 - 完了したタスクは即座にcompleted状態に更新
 - 進捗の可視化でユーザーの安心感向上
+
+## 🚨 GitHub Actions認証の重要事項
+
+### 📚 公式情報の調査手順（必須）
+1. **Anthropic公式ドキュメント**（基本情報のみ）
+2. **GitHub公式リポジトリ全体を詳細調査**：
+   - README.md（基本設定）
+   - docs/フォルダ（詳細ドキュメント）
+   - **Issues（実際の問題と解決策）**
+   - **Discussions（コミュニティの知見）**
+   - **Wiki（追加ドキュメント）**
+   - **examples/フォルダ（実装例）**
+
+### 🔑 Claude Code認証方式の違い（重要）
+#### API Key認証 (`ANTHROPIC_API_KEY`)
+- **Max Plan契約者でも別課金が必要**
+- GitHub Actionsで「Credit balance is too low」エラー発生
+- 公式ドキュメントで主に紹介される方式
+
+#### OAuth Token認証 (`CLAUDE_CODE_OAUTH_TOKEN`) ✅推奨
+- **Max Plan定額内で利用可能**
+- GitHub Actionsで追加課金なし
+- ローカルClaude Codeから生成：`~/.claude/.credentials.json`
+
+### 🔧 OAuth Token設定手順
+```yaml
+# .github/workflows/claude.yml
+- name: Claude Code Action
+  uses: anthropics/claude-code-action@beta
+  with:
+    claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+    github_token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+```bash
+# 1. ローカルでOAuth Token確認
+cat ~/.claude/.credentials.json
+
+# 2. GitHub Secretに設定
+# accessTokenの値をCLAUDE_CODE_OAUTH_TOKENとして設定
+```
+
+### ⚠️ 調査不足による時間損失防止
+- **「公式に載っていない」は安易に結論しない**
+- **GitHubリポジトリの全セクションを必ず確認**
+- **Issues/Discussionsで実際の問題解決例を必ず調査**
+- **1日以上の時間損失を避けるため、初期調査を念入りに実行**

@@ -1,0 +1,3 @@
+#!/bin/bash
+# Claude Dangerous Mode - 確認なしでファイル操作を実行
+claude --print --dangerously-skip-permissions "$@"
