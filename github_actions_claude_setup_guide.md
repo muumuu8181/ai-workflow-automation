@@ -1,6 +1,127 @@
-# Claude Code GitHub Actions設定手順（汎用版）
+# Claude Code GitHub連携完全ガイド
 
-## 📋 作業概要
+## 📋 概要
+このガイドは**Claude Code**と**GitHub**の2つの連携方法を説明します：
+
+### 🎯 2つの連携方式
+1. **Claude Code CLI** → GitHub直接操作（ローカルから）
+2. **GitHub Actions** → `@claude`メンション応答（リモートから）
+
+### 💡 用途の違い
+- **CLI**: 開発作業、リポジトリ横断操作、対話的作業
+- **Actions**: Issue対応、自動PR作成、チーム協業
+
+---
+
+# Part 1: Claude Code CLI GitHub連携設定
+
+## 🚀 基本設定（必須）
+
+### 1. Claude Code CLI インストール・認証
+```bash
+# Claude Code CLI インストール
+npm install -g @anthropic-ai/claude-code
+
+# 認証確認
+claude auth status
+
+# 未認証の場合
+claude auth login
+```
+
+### 2. GitHub CLI設定
+```bash
+# GitHub CLI インストール確認
+gh --version
+
+# 認証
+gh auth login
+# → GitHub.com を選択
+# → HTTPS を選択  
+# → ブラウザで認証
+
+# 認証確認
+gh auth status
+```
+
+### 3. Git設定
+```bash
+# Git ユーザー設定確認
+git config --global user.name
+git config --global user.email
+
+# 未設定の場合
+git config --global user.name "Your Name"
+git config --global user.email "your-email@example.com"
+```
+
+## 🎯 Claude Code CLI でのGitHub操作方法
+
+### リポジトリクローン・操作
+```bash
+# 新規リポジトリクローン
+claude "https://github.com/username/repo をクローンして、プロジェクト構造を分析して"
+
+# 既存ディレクトリでClaude起動
+cd your-repo
+claude
+# → 自動的にリポジトリを認識してGit操作可能
+```
+
+### 一般的な操作例
+```bash
+# リポジトリ分析
+claude "このリポジトリの全体構造を把握して、改善点を教えて"
+
+# Issue対応
+claude "Issue #5の内容を確認して、解決するコードを実装してPRを作成して"
+
+# ドキュメント作成
+claude "READMEを現在のコードベースに合わせて更新して"
+
+# 横断的作業
+claude "全ての.js ファイルでESLintエラーを修正して"
+```
+
+### 高度な連携例
+```bash
+# 複数リポジトリ操作
+claude "muumuu8181 の全リポジトリをチェックして、依存関係を更新して"
+
+# 自動化スクリプト
+claude "GitHub Actionsワークフローを作成して、テスト・デプロイ・リリースを自動化して"
+
+# 組織管理
+claude "Organizationの全リポジトリで同じGitHub Actions設定を適用して"
+```
+
+## ⚡ Claude Code CLI 最適化設定
+
+### CLAUDE.md 設定例
+```markdown
+# Project Configuration
+- **Repository**: GitHub連携プロジェクト
+- **Auto GitHub**: Always use gh CLI for GitHub operations
+- **Commit Style**: Conventional Commits
+- **Branch Strategy**: feature/fix branches with PR workflow
+
+## GitHub 操作ルール
+- コミット前に必ずテスト実行
+- PR作成時は詳細な説明を記載
+- Issue番号をコミットメッセージに含める
+```
+
+### プロジェクト別設定
+```bash
+# プロジェクトディレクトリで
+echo "enableAllProjectMcpServers: true" > .claude/settings.json
+```
+
+---
+
+# Part 2: GitHub Actions Claude設定
+
+## 📋 GitHub Actions概要
 - **日時**: 2025-07-14
 - **対象**: 任意のGitHubリポジトリ
 - **目的**: GitHub IssueやPRで`@claude`メンションによるClaude Code Actionsの自動実行
@@ -257,6 +378,76 @@ done
 ```
 
 ---
-**作業完了日**: 2025-07-14  
+
+# 🎯 統合活用例
+
+## 📋 両方式の組み合わせ活用
+
+### シナリオ1: 機能開発フロー
+```bash
+# 1. Claude Code CLI で開発
+claude "新しいログイン機能を実装して、テストも書いて"
+# → ローカルで実装・テスト
+
+# 2. PR作成
+claude "実装完了した機能のPRを作成して"
+# → GitHub にPR作成
+
+# 3. GitHub Actions でレビュー
+# PR に @claude コメント
+# → 自動コードレビュー・修正提案
+```
+
+### シナリオ2: Issue対応フロー
+```bash
+# 1. GitHub Actions で初期対応
+# Issue に @claude メンション
+# → 自動で分析・修正案提示
+
+# 2. Claude Code CLI で詳細実装
+claude "Issue #10の修正を実装して、関連テストも更新して"
+# → ローカルで詳細実装
+
+# 3. 統合テスト・デプロイ
+claude "修正内容をステージング環境にデプロイして確認して"
+```
+
+### シナリオ3: リポジトリ管理
+```bash
+# Claude Code CLI: 横断的作業
+claude "全11リポジトリのGitHub Actionsを最新化して"
+
+# GitHub Actions: 継続的メンテナンス  
+# 各リポジトリで @claude メンション
+# → 個別リポジトリの自動メンテナンス
+```
+
+## 🔧 トラブルシューティング
+
+### Claude Code CLI 接続エラー
+```bash
+# 認証状況確認
+claude auth status
+gh auth status
+
+# 再認証
+claude auth logout
+claude auth login
+```
+
+### GitHub Actions 認証エラー
+```bash
+# Token確認・更新
+export CLAUDE_TOKEN=$(cat ~/.claude/.credentials.json | grep -o '"accessToken":"[^"]*"' | cut -d'"' -f4)
+gh secret set CLAUDE_CODE_OAUTH_TOKEN --repo owner/repo --body "$CLAUDE_TOKEN"
+```
+
+## 📚 参考リンク
+- **Claude Code CLI**: https://docs.anthropic.com/en/docs/claude-code
+- **GitHub CLI**: https://cli.github.com/
+- **GitHub Actions**: https://docs.github.com/actions
+
+---
+**作業完了日**: 2025-07-15  
 **実行者**: Claude Code Assistant  
-**対象**: muumuu8181の全公開リポジトリ（11リポジトリ）
+**対象**: Claude Code GitHub連携完全ガイド
