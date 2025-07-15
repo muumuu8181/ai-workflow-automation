@@ -56,8 +56,9 @@ temp/
 *.bmp
 *.ico
 *.exe
-*.bat
 *.LOG*
+# セットアップスクリプトは除外しない
+!setup-gemini-cli.bat
 extracted_text_*.txt
 test_screenshot_*.png
 
