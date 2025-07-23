@@ -1,0 +1,7 @@
+node_modules
+logs
+uploads
+reports
+work_history.log
+*.log
+.env
