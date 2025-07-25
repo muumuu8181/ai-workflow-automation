@@ -1,0 +1,19 @@
+{
+  "app_request_repository": {
+    "url": "https://github.com/muumuu8181/app-request-list",
+    "branch": "main",
+    "file_path": "app-requests.md",
+    "description": "外部アプリ要求リストリポジトリの設定"
+  },
+  "priority_rules": {
+    "high_priority_keywords": ["最優先", "urgent", "高優先度", "ASAP"],
+    "default_order": "top_to_bottom",
+    "description": "優先度判定ルール：キーワード検出→上から順"
+  },
+  "completion_tracking": {
+    "local_file": "configs/completed-projects.json",
+    "status_field": "status",
+    "completed_value": "completed",
+    "description": "完了管理：ローカルファイルで完了状態を追跡"
+  }
+}
